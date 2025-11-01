@@ -1,0 +1,5 @@
+Explain the difference between recall and precision in two sentences.
+List 5 use-cases for graph neural networks.
+Describe what a Kalman filter is and when it's useful.
+Summarize the key contributions of the YOLO family.
+Provide a high-level explanation of RAG (retrieval-augmented generation).

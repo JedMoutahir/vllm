@@ -1,0 +1,28 @@
+services:
+  vllm:
+    image: vllm/vllm-openai:latest
+    container_name: vllm-bench
+    restart: unless-stopped
+    environment:
+      - HF_TOKEN=${HF_TOKEN:-}
+      - MODEL=${MODEL:-meta-llama/Llama-3.1-8B-Instruct}
+      - MAX_MODEL_LEN=${MAX_MODEL_LEN:-8192}
+      - TP_SIZE=${TP_SIZE:-1}
+      - PORT=${PORT:-8000}
+      # Add extra vLLM args if needed (e.g., --dtype auto --gpu-memory-utilization 0.95)
+      - VLLM_ARGS=${VLLM_ARGS:-}
+    ports:
+      - "${PORT:-8000}:8000"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]
+    command: >
+      --model $MODEL
+      --host 0.0.0.0
+      --port $PORT
+      --max-model-len $MAX_MODEL_LEN
+      --tensor-parallel-size $TP_SIZE
+      $VLLM_ARGS
+    shm_size: "2g"
